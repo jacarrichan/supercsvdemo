@@ -14,6 +14,7 @@ import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 
 import java.io.FileReader;
+import java.io.FilterReader;
 
 
 public class TestCsvBeanReader {
@@ -43,7 +44,8 @@ public class TestCsvBeanReader {
 
         String path = String.class.getResource("/readWithCsvBeanReader.csv").getFile();
         try (
-                ICsvBeanReader beanReader = new CsvBeanReader(new FileReader(path), CsvPreference.STANDARD_PREFERENCE);
+                FilterReader is = new IgnoreQuotedFilterReader(new FileReader(path));
+                ICsvBeanReader beanReader = new CsvBeanReader(is, CsvPreference.STANDARD_PREFERENCE);
         ) {
 
             // the header elements are used to map the values to the bean (names must match)
