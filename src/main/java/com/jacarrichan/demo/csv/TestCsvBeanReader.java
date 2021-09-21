@@ -1,5 +1,6 @@
 package com.jacarrichan.demo.csv;
 
+import com.google.common.collect.Lists;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBool;
 import org.supercsv.cellprocessor.ParseDate;
@@ -44,7 +45,7 @@ public class TestCsvBeanReader {
 
         String path = String.class.getResource("/readWithCsvBeanReader.csv").getFile();
         try (
-                FilterReader is = new IgnoreQuotedFilterReader(new FileReader(path));
+                FilterReader is = new IgnoreQuotedFilterReader(new FileReader(path), Lists.newArrayList('"'));
                 ICsvBeanReader beanReader = new CsvBeanReader(is, CsvPreference.STANDARD_PREFERENCE);
         ) {
 

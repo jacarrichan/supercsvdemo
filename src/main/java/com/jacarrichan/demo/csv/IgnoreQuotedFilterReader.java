@@ -5,17 +5,21 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 @Slf4j
 public class IgnoreQuotedFilterReader extends FilterReader {
+    private List<Character> badChar;
+
     /**
      * Creates a new filtered reader.
      *
      * @param in a Reader object providing the underlying stream.
      * @throws NullPointerException if <code>in</code> is <code>null</code>
      */
-    protected IgnoreQuotedFilterReader(Reader in) {
+    public IgnoreQuotedFilterReader(Reader in, List<Character> badChar) {
         super(in);
+        this.badChar = badChar;
     }
 
     public int read(char[] buf, int from, int len) throws IOException {
@@ -44,7 +48,7 @@ public class IgnoreQuotedFilterReader extends FilterReader {
      * @return
      */
     private boolean isBadChar(char c) {
-        if ((c == '"')) {
+        if ((badChar.contains(c))) {
             return true;
         }
         return false;
